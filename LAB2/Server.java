@@ -1,4 +1,3 @@
-package com.joaoneto;
 
 import java.io.IOException;
 import java.net.*;
