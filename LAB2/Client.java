@@ -27,7 +27,11 @@ public class Client {
 
         DatagramPacket packet = receive(socket);
 
-        System.out.println(packet.toString());
+        byte[] buf = packet.getData();
+        
+        String s = new String(buf, 0, buf.length);
+        
+        System.out.println(s);
 
     }
    
