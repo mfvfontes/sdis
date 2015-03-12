@@ -11,29 +11,29 @@ import java.net.SocketException;
 public class ServerBroadcast implements Runnable {
 
     InetAddress address;
-    InetAddress serviceAddress;
+    InetAddress saddress;
     int port;
-    int servicePort;
+    int sport;
 
-    ServerBroadcast(InetAddress address, int port, int servicePort, InetAddress serviceAddress){
+    ServerBroadcast(InetAddress address, int port, int sport, InetAddress saddress){
         this.address = address;
-        this.serviceAddress = serviceAddress;
         this.port = port;
-        this.servicePort = servicePort;
+        this.saddress = saddress;
+        this.sport = sport;
     }
 
     @Override
     public void run() {
         // Open a new DatagramSocket, which will be used to send the data.
         try {
-            DatagramSocket serverSocket = new DatagramSocket();
+            DatagramSocket socket = new DatagramSocket();
             while (true) {
-                String msg = serviceAddress.toString() + ":" + Integer.toString(servicePort);
-                DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(),
-                        msg.getBytes().length, address, port);
-                serverSocket.send(msgPacket);
+            	
+                String msg = saddress.toString() + ":" + Integer.toString(sport);
+                DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, address, port);
+                socket.send(msgPacket);
 
-                System.out.println("Broadcasted " + msg);
+                print();
 
                 Thread.sleep(1000);
             }
@@ -44,5 +44,13 @@ public class ServerBroadcast implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void print(){
+    	System.out.println("multicast " + 
+							address.toString().substring(1, address.toString().length())  + 
+							":" + Integer.toString(port) +
+							"::" + saddress.toString().substring(1, saddress.toString().length()) +
+							":" + Integer.toString(sport));
     }
 }

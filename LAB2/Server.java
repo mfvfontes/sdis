@@ -8,88 +8,87 @@ public class Server {
     final static String INET_ADDR = "224.0.0.3";
     final static int PORT = 8888;
     
-    private static HashMap<String,String> dataBase;
+    private static HashMap<String,String> database;
     
     private static byte[] buf;
 
-    private static void broadcast(InetAddress b_addr, int b_port, InetAddress s_addr, int s_port) {
-    	
-        Thread broadCast = new Thread(new ServerBroadcast(b_addr, b_port, s_port, s_addr));
-        broadCast.start();
-        
-    }
-    
     public static void main(String[] args) throws IOException, InterruptedException {
     	
         //Data Structure
-        dataBase = new HashMap<String, String>();
+    	database = new HashMap<String, String>();
         
         InetAddress b_addr = InetAddress.getByName(args[1]);
         int b_port = Integer.parseInt(args[2]);
         InetAddress s_addr = InetAddress.getByName(args[3]);
         int s_port = Integer.parseInt(args[0]);
         
-        broadcast(	b_addr, b_port, s_addr, s_port);
-
-
-        // Open a new DatagramSocket, which will be used to receive the requests.
+        broadcast(b_addr, b_port, s_addr, s_port);
+       
         DatagramSocket socket = new DatagramSocket(s_port);
         
-        
-
         while (true){
         	
         	DatagramPacket packet = receive(socket);
         	
         	String[] info = fetch(packet);
-        	
-        	String oper = info[2].trim();
+        	String msg, oper = info[2].trim();
 
             InetAddress saddress = packet.getAddress();
             int sport = packet.getPort();
 
             if (oper.equalsIgnoreCase("register")) {
-
-            	/*
-                dataBase.put(receivedArray[1],receivedArray[2]);
-
-                String size = Integer.toString(dataBase.size());
-
-                byte[] buffer = size.getBytes();
-
-                DatagramPacket replyPacket = new DatagramPacket(buffer,buffer.length,saddress,sport);
-                socket.send(replyPacket);
-                */
+            	
+            	String plate = info[3].trim(), owner = info[4].trim();
+            	msg = "register " + plate + " " + owner + "::" + register(plate, owner);
+            	
+            	byte[] buffer = msg.getBytes();
+           	 
+                reply (buffer, socket, saddress, sport);
 
             } else if (oper.equalsIgnoreCase("lookup")) {
             	
-            	String result = lookup(info[3].trim());
+            	String plate = info[3].trim();
             	
-                byte[] buffer = result.getBytes();
-
+            	msg = "lookup " + plate + "::" + lookup(plate);
+            	
+            	byte[] buffer = msg.getBytes();
+            	 
                 reply (buffer, socket, saddress, sport);
             }
 
         }
     }
     
+    private static void broadcast(InetAddress b_addr, int b_port, InetAddress s_addr, int s_port) {
+    	
+        Thread broadcast = new Thread(new ServerBroadcast(b_addr, b_port, s_port, s_addr));
+        broadcast.start();
+        
+    }
+    
+    private static String register(String plate, String owner){
+    	
+    	if(!lookup(plate).equals("ERROR"))
+    		return "Plate already exists";
+    	
+    	database.put(plate, owner);
+    	
+    	return plate;
+    }
+    
     private static String lookup (String plate){
-    	String name = dataBase.get(plate);
+    	String owner = database.get(plate);
     	
-    	String result;
+    	if(owner == null)
+    		return "ERROR";
     	
-    	if (name != null)
-    		result = name;
-        else
-        	result = "Not Found";
-    	
-    	return result;
+    	return owner;
     	
     }
     
     private static void reply (byte[] reply, DatagramSocket socket, InetAddress addr, int port) throws IOException {
     	
-    	  DatagramPacket packet = new DatagramPacket(reply,reply.length,addr,port);
+    	  DatagramPacket packet = new DatagramPacket(reply, reply.length, addr, port);
           socket.send(packet);
           
     }

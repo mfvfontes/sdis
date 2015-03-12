@@ -23,7 +23,11 @@ public class Client {
         String request = brequest(args);
         DatagramSocket socket = send(request, saddress, sport);
         
-        System.out.println("Sent message " + request);
+        System.out.println("multicast " + 
+        					address.toString().substring(1, address.toString().length()) + ":" + 
+        					Integer.toString(port) + "::" + 
+        					saddress.toString().substring(1, saddress.toString().length()) + ":" + 
+        					Integer.toString(sport));
 
         DatagramPacket packet = receive(socket);
 
@@ -66,19 +70,16 @@ public class Client {
     
     private static MulticastSocket join(InetAddress address, int port) throws IOException{
     	MulticastSocket socket = new MulticastSocket(port);
-        //Join the Multicast group.
+    	
     	socket.joinGroup(address);
 
-        System.out.println("Joined Multicast Group");
-        
         return socket;
     }
     
-    private static DatagramSocket send(String request, InetAddress serviceAddress, int servicePort) throws IOException {
+    private static DatagramSocket send(String request, InetAddress saddress, int sport) throws IOException {
     	
         DatagramSocket socket = new DatagramSocket();
-        DatagramPacket packet = new DatagramPacket(request.getBytes(),
-                request.getBytes().length, serviceAddress, servicePort);
+        DatagramPacket packet = new DatagramPacket(request.getBytes(), request.getBytes().length, saddress, sport);
 
         socket.send(packet);
         
