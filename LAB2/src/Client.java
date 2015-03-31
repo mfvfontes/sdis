@@ -1,9 +1,6 @@
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.*;
 
 public class Client {
@@ -11,39 +8,6 @@ public class Client {
     final static String INET_ADDR = "224.0.0.3";
     final static int PORT = 8888;
 
-    static Socket cliSocket;
-
-    public static void main(String[] args) throws IOException {
-
-        String msg;
-        BufferedReader user = new BufferedReader(new InputStreamReader(System.in));
-
-        cliSocket = new Socket("localhost",4445);
-
-        System.out.println(cliSocket.isConnected());
-
-        PrintWriter out = new PrintWriter(cliSocket.getOutputStream(),true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
-
-        System.out.println("Write your message:");
-        msg = user.readLine();
-        System.out.println("Entered message: " + msg);
-        out.println(msg);
-
-        System.out.println("Message sent!");
-
-        msg = in.readLine();
-
-        System.out.println("From server: " + msg);
-
-        out.close();
-        in.close();
-        cliSocket.close();
-
-    }
-
-
-    /*
     public static void main(String[] args) throws IOException {
         // Get the address that we are going to connect to.
         InetAddress address = InetAddress.getByName(args[0]);
@@ -74,7 +38,6 @@ public class Client {
         System.out.println(s);
 
     }
-    */
    
     private static String brequest(String args[]){
     	String request = "";

@@ -1,8 +1,5 @@
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.*;
 import java.util.HashMap;
 
@@ -15,72 +12,6 @@ public class Server {
     
     private static byte[] buf;
 
-    static ServerSocket srvSocket;
-    static Socket echoSocket;
-    static String rcvMsg;
-
-    public static void main(String[] args) throws IOException {
-
-        //Server
-        try {
-            srvSocket = new ServerSocket(4445);
-        } catch (IOException e)
-        {
-            System.out.println("Could not listen on port 4445");
-            System.exit(-1);
-        }
-
-        while (true) {
-
-            try {
-                echoSocket = srvSocket.accept();
-            } catch (IOException e)
-            {
-                System.out.println("Accept failed on port 4445");
-                System.exit(-1);
-            }
-
-            System.out.println("Accepted Connection");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(echoSocket.getOutputStream(),true);
-
-            System.out.println("Waiting for message...");
-
-            rcvMsg = in.readLine();
-
-
-            System.out.println("Received: " + rcvMsg);
-            rcvMsg = rcvMsg.toUpperCase();
-
-            out.println(rcvMsg);
-
-
-        }
-
-        /*
-        //Server
-        BufferedReader in = null;
-        in = new BufferedReader(new InputStreamReader(
-                echoSocket.getInputStream()
-        ));
-
-        //Client
-        PrintWriter out = null;
-        out = new PrintWriter(echoSocket.getOutputStream(),true);
-
-        out.println(in.readLine());
-
-        out.close();
-        in.close();
-        echoSocket.close();
-        srvSocket.close();
-*/
-
-    }
-
-
-    /*
     public static void main(String[] args) throws IOException, InterruptedException {
     	
         //Data Structure
@@ -127,7 +58,6 @@ public class Server {
 
         }
     }
-    */
     
     private static void broadcast(InetAddress b_addr, int b_port, InetAddress s_addr, int s_port) {
     	
