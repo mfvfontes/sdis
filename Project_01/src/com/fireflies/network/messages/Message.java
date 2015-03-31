@@ -10,26 +10,21 @@ import java.sql.Ref;
  */
 public class Message {
 
-    private static String separator = Character.toString((char)0xA) + Character.toString((char)0xD);
-    private String msgType = null;
-    private Double version = null;
-    private String fileID = null;
-    private Integer chunkNo = null;
-    private Integer replication = null;
-    private Chunk chunk;
+    protected static String separator = Character.toString((char)0xA) + Character.toString((char)0xD);
+    protected String msgType = null;
+    protected Double version = null;
+    protected String fileID = null;
+    protected Integer chunkNo = null;
+    protected Integer replication = null;
+    protected Chunk chunk = null;
 
-
-    public Message(byte[] buffer)
-    {
-        parse(buffer);
-    }
 
     private void parse (byte[] buffer)
     {
         String msg = new String (buffer);
         String[] msgArray = msg.split(separator+separator);
 
-        String header = msgArray[1];
+        String header = msgArray[0];
         String[] headerArray = header.split(" ");
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgPutChunk))
@@ -49,26 +44,7 @@ public class Message {
     }
 
     public byte[] getBytes() {
-        String ret = null;
-
-        if (msgType != null)
-            ret += msgType;
-
-        if (version != null)
-            ret += version;
-
-        if (fileID != null)
-            ret += fileID;
-
-        if (chunkNo != null)
-            ret += chunkNo;
-
-        if (replication != null)
-            ret += replication;
-
-        if (chunk != null)
-            ret += (separator + separator + chunk.toString());
-
-        return ret.getBytes();
+        return null;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.fireflies.network;
 
+import com.fireflies.File;
 import com.fireflies.network.messages.Message;
 
 import java.net.DatagramSocket;
@@ -20,7 +21,7 @@ public class NetworkHandler {
         }
     }
 
-    static boolean sendToMC(Message message)
+    public static boolean sendToMC(Message message)
     {
 
         return false;

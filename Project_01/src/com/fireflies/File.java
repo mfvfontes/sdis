@@ -13,7 +13,7 @@ import java.util.Date;
 public class File {
     private String name;
     private Date date;
-    private int replication;
+    private Integer replication;
     private String fileID;
 
     private ArrayList<Chunk> chunks;
@@ -55,5 +55,21 @@ public class File {
 
     public ArrayList<Chunk> getChunks() {
         return chunks;
+    }
+
+    public String getFileID() {
+        return fileID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Integer getReplication() {
+        return replication;
     }
 }

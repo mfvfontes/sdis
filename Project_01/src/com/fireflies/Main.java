@@ -1,10 +1,9 @@
 package com.fireflies;
 
-import com.fireflies.threads.Listener;
+import com.fireflies.network.NetworkHandler;
+import com.fireflies.threads.Backup;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -34,6 +33,10 @@ public class Main {
             f.print();
 
             ChunkHandler.createFile("files/out.txt",f.getChunks());
+
+            Backup backup = new Backup(f);
+            backup.run();
+
         }
 
     }
