@@ -20,7 +20,7 @@ public class PutChunk extends Message {
 
     @Override
     public byte[] getBytes() {
-        String ret = msgType + " " + version + " " + chunkNo + " " + replication + separator + separator + chunk;
+        String ret = msgType + " " + version + " " + fileID + " " + chunkNo + " " + replication + separator + separator + chunk;
         return ret.getBytes();
     }
 }

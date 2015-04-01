@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * Created by João on 19/03/2015.
  */
-public class Listener implements Runnable{
+public class Listener extends Thread{
 
     private MulticastSocket mc;
     private MulticastSocket mdb;
@@ -26,6 +26,7 @@ public class Listener implements Runnable{
             mc = new MulticastSocket(Reference.mcPort);
             mc.joinGroup(InetAddress.getByName(Reference.mcAdress));
             mc.setSoTimeout(10);
+            Reference.mcSocket.setSoTimeout(10);
 
             /* Backup Multicast */
             mdb = new MulticastSocket(Reference.mdbPort);
@@ -46,18 +47,22 @@ public class Listener implements Runnable{
 
     private void listen()
     {
-        byte[] buffer = new byte[Reference.chunkSize];
+        byte[] buffer = new byte[Reference.packetSize];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
         while (true)
         {
             try {
-                mc.receive(packet);
+                Reference.mcSocket.receive(packet);
                 /* TODO
                 Handle packet
                  */
+
+                System.out.println("\n\nReceived packet in MC\n\n");
+                System.out.println(new String(packet.getData()));
+
             } catch (SocketTimeoutException e) {
-                System.out.println("MC timed out on Receive()");
+                //System.out.println("MC timed out on Receive()");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -68,7 +73,7 @@ public class Listener implements Runnable{
                 Handle packet
                  */
             } catch (SocketTimeoutException e) {
-                System.out.println("MDB timed out on Receive()");
+                //System.out.println("MDB timed out on Receive()");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,10 +84,17 @@ public class Listener implements Runnable{
                 Handle packet
                  */
             } catch (SocketTimeoutException e) {
-                System.out.println("MDR timed out on Receive()");
+                //System.out.println("MDR timed out on Receive()");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }

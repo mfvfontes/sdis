@@ -1,5 +1,7 @@
 package com.fireflies;
 
+import com.fireflies.reference.Reference;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.security.MessageDigest;
@@ -29,7 +31,9 @@ public class File {
             md.update(id.getBytes());
             byte[] digest = md.digest();
 
-            fileID = new String(digest);
+            fileID = createFileID(digest);
+
+            System.out.println("FileID = " + fileID);
 
         } catch (NoSuchAlgorithmException e) {
             System.out.println("SHA-256 not found!");
@@ -71,5 +75,23 @@ public class File {
 
     public Integer getReplication() {
         return replication;
+    }
+
+    private static String createFileID(byte[] sha)
+    {
+        StringBuilder stringBuilder = new StringBuilder(sha.length*2);
+
+        for(byte b : sha)
+        {
+            int i = b & 0xFF;
+            char msb = Reference.hexArray[i >> 4];
+            char lsb = Reference.hexArray[i & 0x0F];
+
+            stringBuilder.append(msb);
+            stringBuilder.append(lsb);
+        }
+
+        return stringBuilder.toString();
+
     }
 }
