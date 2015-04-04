@@ -8,10 +8,10 @@ import com.fireflies.reference.Reference;
  */
 public class PutChunk extends Message {
 
-    public PutChunk(Double version, Integer chunkNo, File file)
+    public PutChunk(Integer chunkNo, File file)
     {
         this.msgType = Reference.msgPutChunk;
-        this.version = version;
+        this.version = Reference.version;
         this.fileID = file.getFileID();
         this.replication = file.getReplication();
         this.chunkNo = chunkNo;

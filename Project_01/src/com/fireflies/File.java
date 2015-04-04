@@ -41,7 +41,7 @@ public class File {
 
         try {
             FileInputStream fileInputStream = new FileInputStream(this.name);
-            this.chunks = ChunkHandler.getChunks(fileInputStream);
+            this.chunks = ChunkHandler.getChunks(fileInputStream, fileID);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             e.printStackTrace();

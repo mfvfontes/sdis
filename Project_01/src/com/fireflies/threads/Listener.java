@@ -1,5 +1,7 @@
 package com.fireflies.threads;
 
+import com.fireflies.network.NetworkHandler;
+import com.fireflies.network.messages.Message;
 import com.fireflies.reference.Reference;
 
 import java.io.IOException;
@@ -7,42 +9,16 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by João on 19/03/2015.
  */
 public class Listener extends Thread{
 
-    private MulticastSocket mc;
-    private MulticastSocket mdb;
-    private MulticastSocket mdr;
-
-
     @Override
     public void run() {
-        try {
-            /* Control Multicast */
-            mc = new MulticastSocket(Reference.mcPort);
-            mc.joinGroup(InetAddress.getByName(Reference.mcAdress));
-            mc.setSoTimeout(10);
-            Reference.mcSocket.setSoTimeout(10);
 
-            /* Backup Multicast */
-            mdb = new MulticastSocket(Reference.mdbPort);
-            mdb.joinGroup(InetAddress.getByName(Reference.mdbAdress));
-            mdb.setSoTimeout(10);
-
-            /* Restore Multicast */
-            mdr = new MulticastSocket(Reference.mdrPort);
-            mdr.joinGroup(InetAddress.getByName(Reference.mdrAdress));
-            mdr.setSoTimeout(10);
-
-            listen();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        listen();
     }
 
     private void listen()
@@ -52,50 +28,33 @@ public class Listener extends Thread{
 
         while (true)
         {
-            try {
-                Reference.mcSocket.receive(packet);
-                /* TODO
-                Handle packet
-                 */
+            listenOnSocket(NetworkHandler.mcSocket,packet);
+            listenOnSocket(NetworkHandler.mdbSocket,packet);
+            listenOnSocket(NetworkHandler.mdrSocket,packet);
+        }
+    }
 
-                System.out.println("\n\nReceived packet in MC\n\n");
-                System.out.println(new String(packet.getData()));
+    private void listenOnSocket (MulticastSocket socket, DatagramPacket packet)
+    {
+        try {
+            socket.receive(packet);
+            handlePacket(packet);
 
-            } catch (SocketTimeoutException e) {
-                //System.out.println("MC timed out on Receive()");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println("Received something!");
+        } catch (SocketTimeoutException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            try {
-                mdb.receive(packet);
-                /* TODO
-                Handle packet
-                 */
-            } catch (SocketTimeoutException e) {
-                //System.out.println("MDB timed out on Receive()");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void handlePacket(DatagramPacket packet)
+    {
+        Message message = new Message(packet.getData());
 
-            try {
-                mdr.receive(packet);
-                /* TODO
-                Handle packet
-                 */
-            } catch (SocketTimeoutException e) {
-                //System.out.println("MDR timed out on Receive()");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
+        if (message.msgType.equalsIgnoreCase(Reference.msgPutChunk))
+        {
+            Store store = new Store(message);
+            store.start();
         }
     }
 }

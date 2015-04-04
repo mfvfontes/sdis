@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class ChunkHandler {
 
-    static ArrayList<Chunk> getChunks(FileInputStream stream)
+    static ArrayList<Chunk> getChunks(FileInputStream stream, String fileID)
     {
 
         ArrayList<Chunk> chunkList = new ArrayList<Chunk>();
@@ -29,7 +29,7 @@ public class ChunkHandler {
                 nChunks++;
                 fileSize += bytesRead;
 
-                chunkList.add(new Chunk(buffer));
+                chunkList.add(new Chunk(buffer, nChunks, fileID));
 
             } while (bytesRead == Reference.chunkSize);
 

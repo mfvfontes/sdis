@@ -1,11 +1,9 @@
 package com.fireflies.threads;
 
 import com.fireflies.Chunk;
+import com.fireflies.ChunkID;
 import com.fireflies.File;
-import com.fireflies.network.NetworkHandler;
-import com.fireflies.network.messages.PutChunk;
-import com.fireflies.reference.Reference;
-
+import com.fireflies.LibraryHandler;
 import java.util.ArrayList;
 
 /**
@@ -23,15 +21,25 @@ public class Backup extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Backup Thread");
 
         ArrayList<Chunk> chunks = file.getChunks();
 
-        for (int chunk = 0; chunk < chunks.size(); chunk++) {
-            PutChunk msg = new PutChunk(Reference.version,chunk,file);
-            NetworkHandler.sendToMDB(msg);
+        LibraryHandler.printLibrary();
 
-            System.out.println("Sent chunk no: " + chunk);
+        for (int chunk = 0; chunk < chunks.size(); chunk++) {
+
+            LibraryHandler.fileLibrary.addChunk(new ChunkID(file.getFileID(), chunk));
+
+
+            ChunkBackup chunkBackup = new ChunkBackup(chunk,file);
+            chunkBackup.start();
         }
+
+
+        LibraryHandler.printLibrary();
+
+        LibraryHandler.saveLibrary();
+
+
     }
 }
