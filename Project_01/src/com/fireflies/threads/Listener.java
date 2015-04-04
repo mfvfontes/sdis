@@ -17,7 +17,6 @@ public class Listener extends Thread{
 
     @Override
     public void run() {
-
         listen();
     }
 
@@ -38,9 +37,11 @@ public class Listener extends Thread{
     {
         try {
             socket.receive(packet);
-            handlePacket(packet);
 
-            System.out.println("Received something!");
+            if (packet.getPort() != NetworkHandler.senderSocket.getLocalPort())
+                System.out.println("Received something from someone else!");
+            //handlePacket(packet);
+
         } catch (SocketTimeoutException e) {
         } catch (IOException e) {
             e.printStackTrace();

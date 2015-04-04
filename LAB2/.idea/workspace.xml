@@ -2,26 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d307f627-f4d8-420c-84f7-5bca3d4d1fa1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../SDIS_Proj/SDIS_Proj.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/Chunk.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/Chunk.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/ChunkHandler.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/ChunkHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/File.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/File.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/threads/Listener.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/threads/Listener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/Main.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/reference/Reference.class" afterPath="$PROJECT_DIR$/../Project_01/out/production/Project_01/com/fireflies/reference/Reference.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/Backup.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/Backup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/Chunk.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/Chunk.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/ChunkHandler.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/ChunkHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/File.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/File.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/ChunkBackup.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/ChunkBackup.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/Listener.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/threads/Listener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/Main.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/messages/Message.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/messages/Message.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/NetworkHandler.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/NetworkHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/Project_01.iml" afterPath="$PROJECT_DIR$/../Project_01/Project_01.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/messages/PutChunk.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/network/messages/PutChunk.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/src/com/fireflies/reference/Reference.java" afterPath="$PROJECT_DIR$/../Project_01/src/com/fireflies/reference/Reference.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Project_01/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../Project_01/.idea/workspace.xml" />
     </list>
     <ignored path="LAB2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,20 +29,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
+            <state vertical-scroll-proportion="1.5123558" vertical-offset="51" max-vertical-offset="1717">
               <caret line="58" column="14" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerBroadcast.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ServerBroadcast.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerBroadcast.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7266436" vertical-offset="73" max-vertical-offset="986">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
               <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
               <folding />
             </state>
@@ -81,9 +65,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2049" />
-    <option name="width" value="683" />
-    <option name="height" value="728" />
+    <option name="x" value="1358" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -158,13 +143,15 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Dropbox\FEUP\3_2 SDIS\LAB2\src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -318,7 +305,24 @@
       <listeners />
       <method />
     </configuration>
-    <list size="0" />
+    <configuration default="false" name="Unnamed" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="Client" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="8888" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="LAB2" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Application.Unnamed" />
+    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="StatisticProjectComponent">
@@ -353,8 +357,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2049" y="0" width="683" height="728" extended-state="0" />
-    <editor active="true" />
+    <frame x="1358" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -569,14 +573,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
-          <caret line="58" column="14" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="2091">
@@ -587,8 +583,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerBroadcast.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7266436" vertical-offset="73" max-vertical-offset="986">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
           <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5123558" vertical-offset="51" max-vertical-offset="1717">
+          <caret line="58" column="14" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="14" />
           <folding />
         </state>
       </provider>

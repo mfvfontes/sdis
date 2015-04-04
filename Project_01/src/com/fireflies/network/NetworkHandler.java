@@ -16,24 +16,25 @@ public class NetworkHandler {
     public static MulticastSocket mdbSocket;
     public static MulticastSocket mdrSocket;
 
+    public static MulticastSocket senderSocket;
+
     static {
         try {
+            // Sender
+            senderSocket = new MulticastSocket();
 
             // MC
             mcSocket = new MulticastSocket(Reference.mcPort);
-            mcSocket.setLoopbackMode(true);
             mcSocket.joinGroup(InetAddress.getByName(Reference.mcAddress));
             mcSocket.setSoTimeout(Reference.listenTimeout);
 
             // MDB
             mdbSocket = new MulticastSocket(Reference.mdbPort);
-            mdbSocket.setLoopbackMode(true);
             mdbSocket.joinGroup(InetAddress.getByName(Reference.mdbAddress));
             mdbSocket.setSoTimeout(Reference.listenTimeout);
 
             // MDR
             mdrSocket = new MulticastSocket(Reference.mdrPort);
-            mdrSocket.setLoopbackMode(true);
             mdrSocket.joinGroup(InetAddress.getByName(Reference.mdrAddress));
             mdrSocket.setSoTimeout(Reference.listenTimeout);
         } catch (IOException e) {
@@ -61,7 +62,8 @@ public class NetworkHandler {
         try {
             InetAddress inetAddress = InetAddress.getByName(address);
             DatagramPacket packet = new DatagramPacket(message,message.length,inetAddress,port);
-            socket.send(packet);
+            senderSocket.send(packet);
+
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (UnknownHostException e) {

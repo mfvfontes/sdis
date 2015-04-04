@@ -40,9 +40,15 @@ public class ChunkBackup extends Thread {
 
             nAttempts++;
             waitTime *= 2;
+
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } while (
-                (LibraryHandler.fileLibrary.getChunkReplication(new ChunkID(file.getFileID(),chunkNo)) < file.getReplication())
-                &&
+                /*(LibraryHandler.fileLibrary.getChunkReplication(new ChunkID(file.getFileID(),chunkNo)) < file.getReplication())
+                &&*/
                 (nAttempts < Reference.maxBackupAttempts)
                 );
     }
