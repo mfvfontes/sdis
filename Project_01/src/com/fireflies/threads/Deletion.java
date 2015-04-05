@@ -1,16 +1,16 @@
 package com.fireflies.threads;
 
-import com.fireflies.File;
+import com.fireflies.LibraryHandler;
 import com.fireflies.network.NetworkHandler;
 import com.fireflies.network.messages.DeleteChunk;
-import com.fireflies.reference.Reference;
 
 public class Deletion extends Thread {
 
-	File file;
+	String fileID;
 	
-	public Deletion(File file){
-		this.file = file;
+	public Deletion(String file){
+
+		this.fileID = LibraryHandler.fileLibrary.getFileID(file);
 	}
 	
 	@Override
@@ -18,12 +18,12 @@ public class Deletion extends Thread {
 		
 		System.out.println("Deletion Thread");
 
-		DeleteChunk msg = new DeleteChunk(Reference.version, file);
+		DeleteChunk msg = new DeleteChunk(fileID);
 		
 		NetworkHandler.sendToMC(msg);
-		
-		System.out.println("Sent to MC - Delete file with fileID: " + file.getFileID());
-		
+
+		LibraryHandler.fileLibrary.removeFile(fileID);
+
 	}
 	
 }

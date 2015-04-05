@@ -42,12 +42,14 @@ public class Restore extends Thread {
         for (ChunkRestore thread : chunkRestores) {
             try {
                 thread.join();
+                System.out.println("Thread " + thread.chunkNo + " joined with data size = " + thread.data.length);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             chunks.add(thread.data);
         }
 
+        System.out.println("File creation");
         ChunkHandler.createFile(destinationName,chunks);
     }
 }

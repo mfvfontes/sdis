@@ -33,7 +33,6 @@ public class Backup extends Thread {
 
             LibraryHandler.fileLibrary.addChunk(new ChunkID(file.getFileID(), chunk));
 
-            System.out.println("Chunk Backup no " + chunk);
             ChunkBackup chunkBackup = new ChunkBackup(chunk,file);
             chunkBackup.start();
         }

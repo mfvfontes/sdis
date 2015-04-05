@@ -2,6 +2,12 @@ package com.fireflies.network.messages;
 
 import com.fireflies.Chunk;
 import com.fireflies.reference.Reference;
+import sun.misc.IOUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.sql.Ref;
+import java.util.Arrays;
 
 /**
  * Created by João on 19/03/2015.
@@ -27,11 +33,17 @@ public class Message {
 
     private void parse (byte[] buffer)
     {
-        String msg = new String (buffer);
+        String msg = null;
+
+        try {
+            msg = new String(buffer,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         String[] msgArray = msg.split(separator+separator,2);
 
-        String header = msgArray[0];
-        String[] headerArray = header.split(" ");
+        String[] headerArray = msgArray[0].split(" ");
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgPutChunk))
             parsePutChunk(headerArray,msgArray[1]);
@@ -45,10 +57,20 @@ public class Message {
         if (headerArray[0].equalsIgnoreCase(Reference.msgChunk))
             parseChunk(headerArray,msgArray[1]);
 
+        if (headerArray[0].equalsIgnoreCase(Reference.msgDelete))
+            parseDelete(headerArray);
+
             /*
             TODO:
             Other parses
             */
+    }
+
+    private void parseDelete(String[] array)
+    {
+        msgType = Reference.msgDelete;
+        version = Double.parseDouble(array[1]);
+        fileID = array[2];
     }
 
     private void parseChunk(String[] array, String chunk)
@@ -58,7 +80,7 @@ public class Message {
         fileID = array[2];
         chunkNo = Integer.parseInt(array[3]);
 
-        data = chunk.getBytes();
+        data = chunk.getBytes(Charset.forName("UTF-8"));
     }
 
     private void parseGetChunk(String[] array)
@@ -77,7 +99,7 @@ public class Message {
         chunkNo = Integer.parseInt(array[3]);
         replication = Integer.parseInt(array[3]);
 
-        data = chunk.getBytes();
+        data = chunk.getBytes(Charset.forName("UTF-8"));
     }
 
     private void parseStored(String[] array)

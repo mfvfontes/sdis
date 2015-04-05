@@ -1,5 +1,8 @@
 package com.fireflies.threads;
 
+import com.fireflies.ChunkID;
+import com.fireflies.FileLibrary;
+import com.fireflies.LibraryHandler;
 import com.fireflies.network.NetworkHandler;
 import com.fireflies.network.messages.Message;
 import com.fireflies.network.messages.Stored;
@@ -26,7 +29,8 @@ public class Store extends Thread {
     @Override
     public void run() {
         saveChunk();
-
+        System.out.println("Added chunk no " + putChunkMsg.chunkNo + " from file " + putChunkMsg.fileID + " to file Library");
+        LibraryHandler.fileLibrary.addStoredChunk(new ChunkID(putChunkMsg.fileID, putChunkMsg.chunkNo));
         Stored msg = new Stored(putChunkMsg.chunkNo,putChunkMsg.fileID);
 
         int timeToWait = new Random().nextInt(400);
@@ -44,6 +48,8 @@ public class Store extends Thread {
     {
         try {
             FileOutputStream fos = new FileOutputStream(Reference.chunksFolder + putChunkMsg.fileID + "_" + putChunkMsg.chunkNo + ".cnk");
+
+            System.out.println("Saved " + putChunkMsg.data.length + " bytes from chunk no " + putChunkMsg.chunkNo);
             fos.write(putChunkMsg.data);
             fos.close();
         } catch (FileNotFoundException e) {
@@ -51,7 +57,5 @@ public class Store extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Saved chunk no " + putChunkMsg.chunkNo + " from file " + putChunkMsg.fileID);
     }
 }

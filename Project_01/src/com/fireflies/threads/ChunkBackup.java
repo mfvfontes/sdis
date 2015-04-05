@@ -34,9 +34,6 @@ public class ChunkBackup extends Thread {
             PutChunk msg = new PutChunk(file.getChunks().get(chunkNo),file.getFileID(),file.getReplication());
 
             NetworkHandler.sendToMDB(msg);
-
-            System.out.println("Sent chunk no " + msg.chunkNo);
-
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {

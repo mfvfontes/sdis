@@ -4,30 +4,28 @@ import com.fireflies.Chunk;
 import com.fireflies.reference.Reference;
 
 /**
- * Created by João on 28/03/2015.
+ * Created by João on 04/04/2015.
  */
-public class PutChunk extends Message {
+public class ChunkMsg extends Message {
 
-    public PutChunk(Chunk chunk, String fileID, int replication)
+    public ChunkMsg (int chunkNo, String fileID, byte[] data)
     {
-        this.msgType = Reference.msgPutChunk;
+        this.msgType = Reference.msgChunk;
         this.version = Reference.version;
         this.fileID = fileID;
-        this.replication = replication;
-        this.chunkNo = chunk.getChunkNo();
-        this.data = chunk.getData();
-
-        System.out.println("PutChunk chunk no " + this.chunkNo + " data size " + this.data.length);
+        this.chunkNo = chunkNo;
+        this.data = data;
     }
 
     @Override
     public byte[] getBytes() {
+        String ret = msgType + " " + version + " " + fileID + " " + chunkNo + separator + separator;
 
-        String ret = msgType + " " + version + " " + fileID + " " + chunkNo + " " + replication + separator + separator;
         byte[] headerBytes = ret.getBytes();
         byte[] msgBytes = new byte[headerBytes.length + data.length];
         System.arraycopy(headerBytes,0,msgBytes,0,headerBytes.length);
         System.arraycopy(data,0,msgBytes,headerBytes.length,data.length);
+
         return msgBytes;
     }
 }

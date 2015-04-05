@@ -14,7 +14,7 @@ public class Reference {
     // Message Types
     public static String msgPutChunk = "putchunk";
     public static String msgGetChunk = "getchunk";
-    public static String msgDeleteChunk = "delete";
+    public static String msgDelete = "delete";
     public static String msgReclaimSpace = "removed";
     public static String msgStored = "stored";
     public static String msgChunk = "chunk";

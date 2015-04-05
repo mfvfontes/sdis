@@ -6,7 +6,6 @@ import com.fireflies.reference.Reference;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -73,6 +72,10 @@ public class Listener extends Thread{
         {
             SendChunk sendChunk = new SendChunk(message);
             sendChunk.start();
+        } else if (message.msgType.equalsIgnoreCase(Reference.msgDelete))
+        {
+            DeleteStoredChunks deleteStoredChunks = new DeleteStoredChunks(message.fileID);
+            deleteStoredChunks.start();
         }
     }
 }

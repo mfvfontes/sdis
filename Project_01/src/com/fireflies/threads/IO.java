@@ -42,6 +42,11 @@ public class IO extends Thread {
                     Restore restore = new Restore(array[1],array[2]);
                     restore.start();
                 }
+                else if (array[0].equalsIgnoreCase("delete"))
+                {
+                    Deletion deletion = new Deletion(array[1]);
+                    deletion.start();
+                }
 
                 else
                 {

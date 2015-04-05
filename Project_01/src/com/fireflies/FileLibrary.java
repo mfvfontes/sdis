@@ -22,6 +22,12 @@ public class FileLibrary implements java.io.Serializable {
     HashMap<String,Integer> nChunks;
     HashMap<ChunkID,Integer> chunkReplication;
 
+    public void removeFile(String fileID)
+    {
+        fileNameToID.remove(fileID);
+        nChunks.remove(fileID);
+    }
+
     public String getFileID (String fileName) { return fileNameToID.get(fileName);}
 
     public int getNoChunks (String fileID) { return nChunks.get(fileID); }
@@ -92,10 +98,19 @@ public class FileLibrary implements java.io.Serializable {
     ArrayList<ChunkID> chunks;
 
 
-    public void addStoredChunk(ChunkID chunkID, Chunk chunk)
+    public void addStoredChunk(ChunkID chunkID)
     {
         chunks.add(chunkID);
+    }
 
+    public ArrayList<ChunkID> getStoredChunks()
+    {
+        return chunks;
+    }
+
+    public void removeStoredChunk(ChunkID chunkID)
+    {
+        chunks.remove(chunkID);
     }
 
 }

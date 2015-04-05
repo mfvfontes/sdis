@@ -14,6 +14,7 @@ public class ChunkHandler {
     {
 
         ArrayList<Chunk> chunkList = new ArrayList<Chunk>();
+        ArrayList<byte[]> datas = new ArrayList<byte[]>();
 
         try {
 
@@ -26,18 +27,24 @@ public class ChunkHandler {
                 byte[] buffer = new byte[Reference.chunkSize];
 
                 bytesRead = stream.read(buffer);
-                chunkList.add(new Chunk(buffer, nChunks, bytesRead));
+                Chunk newChunk = new Chunk(buffer, nChunks, bytesRead);
+                chunkList.add(newChunk);
                 nChunks++;
                 fileSize += bytesRead;
+
+                datas.add(newChunk.getData());
 
                 System.out.println("Read " + bytesRead + " bytes");
 
 
             } while (bytesRead == Reference.chunkSize);
 
-            System.out.println("Read file with " + nChunks + " chunks and a size of " + fileSize + " bytes.");
 
             stream.close();
+
+            createFile("files/test.jpg",datas);
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
