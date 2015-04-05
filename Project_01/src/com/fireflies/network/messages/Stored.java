@@ -17,7 +17,7 @@ public class Stored extends Message{
 
     @Override
     public byte[] getBytes() {
-        String ret = msgType + " " + version + " " + fileID + " " + chunkNo;
+        String ret = msgType + " " + version + " " + fileID + " " + chunkNo + separator + separator;
         return ret.getBytes();
     }
 }

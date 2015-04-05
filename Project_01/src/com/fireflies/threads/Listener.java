@@ -9,6 +9,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
+import java.util.Arrays;
 
 /**
  * Created by João on 19/03/2015.
@@ -22,27 +23,29 @@ public class Listener extends Thread{
 
     private void listen()
     {
-        byte[] buffer = new byte[Reference.packetSize];
-        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
         while (true)
         {
-            listenOnSocket(NetworkHandler.mcSocket,packet);
-            listenOnSocket(NetworkHandler.mdbSocket,packet);
-            listenOnSocket(NetworkHandler.mdrSocket,packet);
+            listenOnSocket(NetworkHandler.mcSocket);
+            listenOnSocket(NetworkHandler.mdbSocket);
+            listenOnSocket(NetworkHandler.mdrSocket);
         }
     }
 
-    private void listenOnSocket (MulticastSocket socket, DatagramPacket packet)
+    private void listenOnSocket (MulticastSocket socket)
     {
+        byte[] buffer = new byte[Reference.packetSize];
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
         try {
             socket.receive(packet);
 
-            if (packet.getPort() != NetworkHandler.senderSocket.getLocalPort())
-                System.out.println("Received something from someone else!");
-            //handlePacket(packet);
+            if (packet.getPort() != NetworkHandler.senderSocket.getLocalPort()) {
+                handlePacket(packet);
+            }
 
         } catch (SocketTimeoutException e) {
+            //Do nothing
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,12 +53,26 @@ public class Listener extends Thread{
 
     private void handlePacket(DatagramPacket packet)
     {
-        Message message = new Message(packet.getData());
+        byte[] data = Arrays.copyOfRange(packet.getData(),0,packet.getLength());
+
+        Message message = new Message(data);
 
         if (message.msgType.equalsIgnoreCase(Reference.msgPutChunk))
         {
             Store store = new Store(message);
             store.start();
+        } else if (message.msgType.equalsIgnoreCase(Reference.msgStored))
+        {
+            RemoteStored remoteStored = new RemoteStored(message);
+            remoteStored.start();
+        } else if (message.msgType.equalsIgnoreCase(Reference.msgChunk))
+        {
+            ChunkReceived chunkReceived = new ChunkReceived(message);
+            chunkReceived.start();
+        } else if (message.msgType.equalsIgnoreCase(Reference.msgGetChunk))
+        {
+            SendChunk sendChunk = new SendChunk(message);
+            sendChunk.start();
         }
     }
 }

@@ -5,9 +5,6 @@ import com.fireflies.threads.IO;
 import com.fireflies.threads.Listener;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class Main {
 
 
@@ -15,7 +12,7 @@ public class Main {
 
         Reference.setMcAddressPorts(args[0],args[1],args[2],Integer.parseInt(args[3]),Integer.parseInt(args[4]),Integer.parseInt(args[5]));
 
-        //Reference.libraryPath = args[6];
+        Reference.libraryPath = args[6];
 
         LibraryHandler.loadLibrary();
 

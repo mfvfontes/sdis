@@ -20,8 +20,9 @@ public class File {
 
     private ArrayList<Chunk> chunks;
 
-    public File (String name) {
+    public File (String name, int replication) {
         this.name = name;
+        this.replication = replication;
         this.date = new Date();
 
         MessageDigest md;

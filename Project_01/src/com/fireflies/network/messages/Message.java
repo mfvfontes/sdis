@@ -6,6 +6,7 @@ import com.fireflies.reference.Reference;
 /**
  * Created by João on 19/03/2015.
  */
+
 public class Message {
 
     protected static String separator = Character.toString((char)0xA) + Character.toString((char)0xD);
@@ -14,7 +15,7 @@ public class Message {
     public String fileID = null;
     public Integer chunkNo = null;
     public Integer replication = null;
-    public Chunk chunk = null;
+    public byte[] data = null;
 
     public Message (byte[] buffer)
     {
@@ -38,10 +39,34 @@ public class Message {
         if (headerArray[0].equalsIgnoreCase(Reference.msgStored))
             parseStored(headerArray);
 
+        if (headerArray[0].equalsIgnoreCase(Reference.msgGetChunk))
+            parseGetChunk(headerArray);
+
+        if (headerArray[0].equalsIgnoreCase(Reference.msgChunk))
+            parseChunk(headerArray,msgArray[1]);
+
             /*
             TODO:
             Other parses
             */
+    }
+
+    private void parseChunk(String[] array, String chunk)
+    {
+        msgType = Reference.msgChunk;
+        version = Double.parseDouble(array[1]);
+        fileID = array[2];
+        chunkNo = Integer.parseInt(array[3]);
+
+        data = chunk.getBytes();
+    }
+
+    private void parseGetChunk(String[] array)
+    {
+        msgType = Reference.msgGetChunk;
+        version = Double.parseDouble(array[1]);
+        fileID = array[2];
+        chunkNo = Integer.parseInt(array[3]);
     }
 
     private void parsePutChunk(String[] array, String chunk)
@@ -52,7 +77,7 @@ public class Message {
         chunkNo = Integer.parseInt(array[3]);
         replication = Integer.parseInt(array[3]);
 
-        this.chunk = new Chunk(chunk.getBytes(),chunkNo,fileID);
+        data = chunk.getBytes();
     }
 
     private void parseStored(String[] array)
@@ -60,6 +85,7 @@ public class Message {
         msgType = Reference.msgStored;
         version = Double.parseDouble(array[1]);
         fileID = array[2];
+        chunkNo = Integer.parseInt(array[3]);
     }
 
     public byte[] getBytes() {

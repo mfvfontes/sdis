@@ -5,12 +5,11 @@ import com.fireflies.reference.Reference;
 
 public class GetChunk extends Message{
 
-	public GetChunk(Double version, Integer chunkNo, File file){
+	public GetChunk(String fileID, Integer chunkNo){
 		this.msgType = Reference.msgGetChunk;
-		this.version = version;
-		this.fileID = file.getFileID();
+		this.version = Reference.version;
+		this.fileID = fileID;
 		this.chunkNo = chunkNo;
-		this.chunk = file.getChunks().get(chunkNo);
 	}
 	
 	@Override

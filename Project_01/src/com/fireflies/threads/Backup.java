@@ -21,22 +21,22 @@ public class Backup extends Thread {
     @Override
     public void run() {
 
+        /* TODO
+        Apagar todos os chunks da versão anterior do ficheiro
+         */
+
+        LibraryHandler.fileLibrary.addFile(file);
 
         ArrayList<Chunk> chunks = file.getChunks();
-
-        LibraryHandler.printLibrary();
 
         for (int chunk = 0; chunk < chunks.size(); chunk++) {
 
             LibraryHandler.fileLibrary.addChunk(new ChunkID(file.getFileID(), chunk));
 
-
+            System.out.println("Chunk Backup no " + chunk);
             ChunkBackup chunkBackup = new ChunkBackup(chunk,file);
             chunkBackup.start();
         }
-
-
-        LibraryHandler.printLibrary();
 
         LibraryHandler.saveLibrary();
 

@@ -17,7 +17,7 @@ public class Reference {
     public static String msgDeleteChunk = "delete";
     public static String msgReclaimSpace = "removed";
     public static String msgStored = "stored";
-
+    public static String msgChunk = "chunk";
 
     // Multicast Addresses
     public static String mcAddress = "228.5.6.7";
@@ -43,7 +43,7 @@ public class Reference {
 
     // Data sizes
     public static int chunkSize = 64000;
-    public static int packetSize = 70000;
+    public static int packetSize = 65000;
 
     // Hashing
     final public static char[] hexArray = "0123456789ABCDEF".toCharArray();

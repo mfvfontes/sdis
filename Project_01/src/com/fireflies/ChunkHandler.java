@@ -19,17 +19,19 @@ public class ChunkHandler {
 
             int fileSize = 0;
             int nChunks = 0;
-            int bytesRead = 0;
+            int bytesRead;
 
             do
             {
                 byte[] buffer = new byte[Reference.chunkSize];
 
                 bytesRead = stream.read(buffer);
+                chunkList.add(new Chunk(buffer, nChunks, bytesRead));
                 nChunks++;
                 fileSize += bytesRead;
 
-                chunkList.add(new Chunk(buffer, nChunks, fileID));
+                System.out.println("Read " + bytesRead + " bytes");
+
 
             } while (bytesRead == Reference.chunkSize);
 
@@ -45,14 +47,14 @@ public class ChunkHandler {
         return chunkList;
     }
 
-    static void createFile (String fileName, ArrayList<Chunk> chunks)
+    public static void createFile (String fileName, ArrayList<byte[]> chunks)
     {
         try {
             FileOutputStream stream = new FileOutputStream(fileName);
 
             for (int i = 0; i < chunks.size(); i++)
             {
-                stream.write(chunks.get(i).getData());
+                stream.write(chunks.get(i));
             }
             stream.close();
 

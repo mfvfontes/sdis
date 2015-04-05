@@ -38,18 +38,14 @@ public class Store extends Thread {
         }
 
         NetworkHandler.sendToMC(msg);
-
-        System.out.println("Waited " + timeToWait + "ms and sent Stored to MC");
     }
 
     private void saveChunk()
     {
         try {
-            FileOutputStream chunkStream = new FileOutputStream(Reference.chunksFolder + putChunkMsg.fileID + "_" + putChunkMsg.chunkNo + ".cnk");
-            ObjectOutputStream out = new ObjectOutputStream(chunkStream);
-            out.write(putChunkMsg.chunk.getData());
-            out.close();
-            chunkStream.close();
+            FileOutputStream fos = new FileOutputStream(Reference.chunksFolder + putChunkMsg.fileID + "_" + putChunkMsg.chunkNo + ".cnk");
+            fos.write(putChunkMsg.data);
+            fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

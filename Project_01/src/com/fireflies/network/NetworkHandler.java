@@ -44,20 +44,20 @@ public class NetworkHandler {
 
     public static void sendToMC(Message message)
     {
-        send(mcSocket, Reference.mcAddress,Reference.mcPort,message.getBytes());
+        send(Reference.mcAddress,Reference.mcPort,message.getBytes());
     }
 
     public static void sendToMDB(Message message)
     {
-        send(mdbSocket, Reference.mdbAddress,Reference.mdbPort,message.getBytes());
+        send(Reference.mdbAddress,Reference.mdbPort,message.getBytes());
     }
 
     public static void sendToMDR(Message message)
     {
-        send(mdrSocket, Reference.mdrAddress,Reference.mdrPort,message.getBytes());
+        send(Reference.mdrAddress,Reference.mdrPort,message.getBytes());
     }
 
-    private static void send(MulticastSocket socket, String address, int port, byte[] message) {
+    private static void send(String address, int port, byte[] message) {
 
         try {
             InetAddress inetAddress = InetAddress.getByName(address);

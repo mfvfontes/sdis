@@ -26,11 +26,16 @@ public class ChunkBackup extends Thread {
         int nAttempts = 0;
         int waitTime = 500;
 
+        ChunkID id = new ChunkID(file.getFileID(),chunkNo);
+        int desiredReplication = file.getReplication();
+        int actualReplication;
+
         do {
-            PutChunk msg = new PutChunk(chunkNo,file);
+            PutChunk msg = new PutChunk(file.getChunks().get(chunkNo),file.getFileID(),file.getReplication());
+
             NetworkHandler.sendToMDB(msg);
 
-            System.out.println("Sent chunk no " + chunkNo);
+            System.out.println("Sent chunk no " + msg.chunkNo);
 
             try {
                 Thread.sleep(waitTime);
@@ -41,14 +46,12 @@ public class ChunkBackup extends Thread {
             nAttempts++;
             waitTime *= 2;
 
-            try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            actualReplication = LibraryHandler.fileLibrary.getChunkReplication(id);
+
+
         } while (
-                /*(LibraryHandler.fileLibrary.getChunkReplication(new ChunkID(file.getFileID(),chunkNo)) < file.getReplication())
-                &&*/
+                (actualReplication < desiredReplication )
+                &&
                 (nAttempts < Reference.maxBackupAttempts)
                 );
     }
