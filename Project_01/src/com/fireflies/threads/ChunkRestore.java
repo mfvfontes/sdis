@@ -6,6 +6,7 @@ import com.fireflies.network.messages.GetChunk;
 import com.fireflies.reference.Reference;
 
 import java.net.InetAddress;
+import java.util.Random;
 
 public class ChunkRestore extends Thread{
 
@@ -25,8 +26,13 @@ public class ChunkRestore extends Thread{
 	public void run(){
 
 		//System.out.println("Restore Thread " + chunkNo + " file " + fileId);
-		
-		GetChunk msg = new GetChunk(fileId,chunkNo);
+
+		int port = (new Random().nextInt(4000)+4000);
+
+		GetChunk msg = new GetChunk(fileId,chunkNo,port);
+
+		ChunkReceivedUDP chunkReceivedUDP = new ChunkReceivedUDP(port,this);
+		chunkReceivedUDP.start();
 		
 		NetworkHandler.sendToMC(msg);
 

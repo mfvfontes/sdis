@@ -23,6 +23,7 @@ public class Message {
     public Integer chunkNo = null;
     public Integer replication = null;
     public byte[] data = null;
+    public Integer port = null;
 
     public InetSocketAddress address = null;
 
@@ -49,7 +50,8 @@ public class Message {
 
         String[] msgArray = msg.split(separator+separator,2);
 
-        String[] headerArray = msgArray[0].split(" ");
+        String[] headerLines = msgArray[0].split(separator);
+        String[] headerArray = headerLines[0].split(" ");
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgPutChunk))
             parsePutChunk(headerArray,msgArray[1]);
@@ -58,21 +60,20 @@ public class Message {
             parseStored(headerArray);
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgGetChunk))
-            parseGetChunk(headerArray);
+            parseGetChunk(headerArray,headerLines[1]);
 
-        if (headerArray[0].equalsIgnoreCase(Reference.msgChunk))
-            parseChunk(headerArray,msgArray[1]);
+        if (headerArray[0].equalsIgnoreCase(Reference.msgChunk)) {
+            if (msgArray[1] != null)
+                parseChunk(headerArray, msgArray[1]);
+            else
+                parseGetChunk(headerArray, null);
+        }
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgDelete))
             parseDelete(headerArray);
 
         if (headerArray[0].equalsIgnoreCase(Reference.msgRemoved))
             parseRemoved(headerArray);
-
-            /*
-            TODO:
-            Other parses
-            */
     }
 
     private void parseRemoved(String[] array)
@@ -100,12 +101,18 @@ public class Message {
         data = chunk.getBytes(Charset.forName("ISO-8859-1"));
     }
 
-    private void parseGetChunk(String[] array)
+    private void parseGetChunk(String[] array, String secondLine)
     {
+
         msgType = Reference.msgGetChunk;
         version = Double.parseDouble(array[1]);
         fileID = array[2];
         chunkNo = Integer.parseInt(array[3]);
+
+        if (secondLine != null) {
+            String[] secondLineArgs = secondLine.split(" ");
+            port = Integer.parseInt(secondLineArgs[0]);
+        }
     }
 
     private void parsePutChunk(String[] array, String chunk)

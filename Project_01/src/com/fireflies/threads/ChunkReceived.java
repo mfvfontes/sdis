@@ -35,6 +35,7 @@ public class ChunkReceived extends Thread {
                 if (restore.fileId.equalsIgnoreCase(message.fileID) && restore.chunkNo == message.chunkNo)
                 {
                     synchronized (restore.lock) {
+                        System.out.println("Not UDP");
                         restore.data = message.data;
                         restore.lock.notify();
                     }

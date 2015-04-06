@@ -11,6 +11,9 @@ import javax.rmi.CORBA.Util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -26,7 +29,7 @@ public class SendChunk extends Thread {
         this.message = message;
         this.chunkID = new ChunkID(message.fileID,message.chunkNo);
 
-        Utils.sendChunks.add(this);
+        //Utils.sendChunks.add(this);
     }
 
     @Override
@@ -34,6 +37,7 @@ public class SendChunk extends Thread {
 
         //System.out.println("Send Chunk Thread for chunk no " + message.chunkNo + " from file " + message.fileID);
 
+        /* VERSION 1.0
         try {
             FileInputStream chunkStream = new FileInputStream(Reference.chunksFolder + "/" + message.fileID + "_" + message.chunkNo + ".cnk");
             byte [] data = new byte[Reference.chunkSize];
@@ -56,5 +60,27 @@ public class SendChunk extends Thread {
         }
 
         Utils.sendChunks.remove(this);
+        */
+
+        /* VERSION 1.1 */
+        FileInputStream chunkStream = null;
+        try {
+            chunkStream = new FileInputStream(Reference.chunksFolder + "/" + message.fileID + "_" + message.chunkNo + ".cnk");
+            byte [] data = new byte[Reference.chunkSize];
+            int bytesRead = chunkStream.read(data);
+            byte [] trimmedData =  Arrays.copyOfRange(data,0,bytesRead);
+            chunkStream.close();
+
+            InetAddress address = message.address.getAddress();
+            DatagramPacket packet = new DatagramPacket(trimmedData,trimmedData.length,address,message.port);
+            DatagramSocket socket = new DatagramSocket();
+            socket.send(packet);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

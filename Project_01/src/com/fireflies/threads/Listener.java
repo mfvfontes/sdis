@@ -57,6 +57,8 @@ public class Listener extends Thread{
 
         Message message = new Message(data, new InetSocketAddress(packet.getAddress(),packet.getPort()));
 
+        System.out.println("Received message from address " + packet.getAddress());
+
         //System.out.println("\nReceived " + message.msgType + " message");
 
         if (message.msgType.equalsIgnoreCase(Reference.msgPutChunk))
