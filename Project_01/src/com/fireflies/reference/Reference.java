@@ -15,7 +15,7 @@ public class Reference {
     public static String msgPutChunk = "putchunk";
     public static String msgGetChunk = "getchunk";
     public static String msgDelete = "delete";
-    public static String msgReclaimSpace = "removed";
+    public static String msgRemoved = "removed";
     public static String msgStored = "stored";
     public static String msgChunk = "chunk";
 
@@ -44,15 +44,18 @@ public class Reference {
     // Data sizes
     public static int chunkSize = 64000;
     public static int packetSize = 65000;
+    public static int diskSpace;
 
     // Hashing
     final public static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     // Folders
-    public static String libraryPath = "tmp/fileLibrary.flib";
-    public static String chunksFolder = "chunks/";
+    public static String libraryFolder = "lib/";
+    public static String libraryFileName;
+    public static String chunksFolder;
 
     // Protocol
-    public static int maxBackupAttempts = 7;
+    public static int maxBackupAttempts = 5;
     public static int listenTimeout = 20;
+    public static int numberRepeatMessages = 3;
 }

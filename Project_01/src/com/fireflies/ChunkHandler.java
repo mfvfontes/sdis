@@ -32,17 +32,10 @@ public class ChunkHandler {
                 nChunks++;
                 fileSize += bytesRead;
 
-                datas.add(newChunk.getData());
-
-                System.out.println("Read " + bytesRead + " bytes");
-
-
             } while (bytesRead == Reference.chunkSize);
 
 
             stream.close();
-
-            createFile("files/test.jpg",datas);
 
 
 

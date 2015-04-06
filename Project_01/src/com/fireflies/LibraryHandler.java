@@ -14,16 +14,15 @@ public class LibraryHandler {
     public static void loadLibrary()
     {
         try {
-            FileInputStream libraryFile = new FileInputStream(Reference.libraryPath);
+            FileInputStream libraryFile = new FileInputStream(Reference.libraryFolder + Reference.libraryFileName + ".flib");
             ObjectInputStream in = new ObjectInputStream(libraryFile);
             fileLibrary = (FileLibrary) in.readObject();
             in.close();
             libraryFile.close();
         } catch (IOException e) {
             System.out.println("Library does not yet exist");
-            java.io.File file = new java.io.File("tmp/");
-            if(!file.mkdirs())
-                System.out.println("Failed mkdirs");
+            java.io.File file = new java.io.File(Reference.libraryFolder);
+            file.mkdirs();
             fileLibrary = new FileLibrary();
 
             saveLibrary();
@@ -31,12 +30,14 @@ public class LibraryHandler {
             e.printStackTrace();
         }
 
+        java.io.File file = new java.io.File(Reference.chunksFolder + "/");
+        file.mkdirs();
     }
 
     public static void saveLibrary()
     {
         try {
-            FileOutputStream libraryFile = new FileOutputStream(Reference.libraryPath);
+            FileOutputStream libraryFile = new FileOutputStream(Reference.libraryFolder + Reference.libraryFileName + ".flib");
             ObjectOutputStream out = new ObjectOutputStream(libraryFile);
             out.writeObject(fileLibrary);
             out.close();
@@ -46,13 +47,6 @@ public class LibraryHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void printLibrary()
-    {
-        System.out.println("\nFile Library");
-        System.out.println(fileLibrary.chunkReplication);
-        System.out.println(fileLibrary.chunks);
     }
 
 }

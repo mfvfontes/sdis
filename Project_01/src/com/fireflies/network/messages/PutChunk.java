@@ -1,6 +1,7 @@
 package com.fireflies.network.messages;
 
 import com.fireflies.Chunk;
+import com.fireflies.ChunkID;
 import com.fireflies.reference.Reference;
 
 /**
@@ -16,8 +17,16 @@ public class PutChunk extends Message {
         this.replication = replication;
         this.chunkNo = chunk.getChunkNo();
         this.data = chunk.getData();
+    }
 
-        System.out.println("PutChunk chunk no " + this.chunkNo + " data size " + this.data.length);
+    public PutChunk(ChunkID id, byte[] data, int replication)
+    {
+        this.msgType = Reference.msgPutChunk;
+        this.version = Reference.version;
+        this.fileID = id.fileID;
+        this.replication = replication;
+        this.chunkNo = id.chunkNo;
+        this.data = data;
     }
 
     @Override

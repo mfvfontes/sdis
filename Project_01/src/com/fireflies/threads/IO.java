@@ -2,6 +2,7 @@ package com.fireflies.threads;
 
 import com.fireflies.File;
 import com.fireflies.LibraryHandler;
+import com.fireflies.reference.Reference;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,8 +45,20 @@ public class IO extends Thread {
                 }
                 else if (array[0].equalsIgnoreCase("delete"))
                 {
-                    Deletion deletion = new Deletion(array[1]);
+                    Deletion deletion = new Deletion(LibraryHandler.fileLibrary.getFileID(array[1]));
                     deletion.start();
+                }
+                else if (array[0].equalsIgnoreCase("library"))
+                    LibraryHandler.fileLibrary.print();
+                else if (array[0].equalsIgnoreCase("reclaim"))
+                {
+                    SpaceReclaiming spaceReclaiming = new SpaceReclaiming(Integer.parseInt(array[1]));
+                    spaceReclaiming.start();
+                }
+                else if (array[0].equalsIgnoreCase("grant"))
+                {
+                    Reference.diskSpace += Integer.parseInt(array[1]);
+                    LibraryHandler.fileLibrary.availableSpace += Integer.parseInt(array[1]);
                 }
 
                 else

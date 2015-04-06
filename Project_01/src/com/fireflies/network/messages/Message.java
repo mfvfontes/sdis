@@ -5,6 +5,7 @@ import com.fireflies.reference.Reference;
 import sun.misc.IOUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.sql.Ref;
 import java.util.Arrays;
@@ -23,8 +24,11 @@ public class Message {
     public Integer replication = null;
     public byte[] data = null;
 
-    public Message (byte[] buffer)
+    public InetSocketAddress address = null;
+
+    public Message (byte[] buffer, InetSocketAddress address)
     {
+        this.address = address;
         parse(buffer);
     }
 
@@ -36,7 +40,9 @@ public class Message {
         String msg = null;
 
         try {
-            msg = new String(buffer,"UTF-8");
+
+            String tmpmsg = new String(buffer,"ISO-8859-1");
+            msg = tmpmsg.trim();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -60,10 +66,21 @@ public class Message {
         if (headerArray[0].equalsIgnoreCase(Reference.msgDelete))
             parseDelete(headerArray);
 
+        if (headerArray[0].equalsIgnoreCase(Reference.msgRemoved))
+            parseRemoved(headerArray);
+
             /*
             TODO:
             Other parses
             */
+    }
+
+    private void parseRemoved(String[] array)
+    {
+        msgType = Reference.msgRemoved;
+        version = Double.parseDouble(array[1]);
+        fileID = array[2];
+        chunkNo = Integer.parseInt(array[3]);
     }
 
     private void parseDelete(String[] array)
@@ -80,7 +97,7 @@ public class Message {
         fileID = array[2];
         chunkNo = Integer.parseInt(array[3]);
 
-        data = chunk.getBytes(Charset.forName("UTF-8"));
+        data = chunk.getBytes(Charset.forName("ISO-8859-1"));
     }
 
     private void parseGetChunk(String[] array)
@@ -97,9 +114,9 @@ public class Message {
         version = Double.parseDouble(array[1]);
         fileID = array[2];
         chunkNo = Integer.parseInt(array[3]);
-        replication = Integer.parseInt(array[3]);
+        replication = Integer.parseInt(array[4]);
 
-        data = chunk.getBytes(Charset.forName("UTF-8"));
+        data = chunk.getBytes(Charset.forName("ISO-8859-1"));
     }
 
     private void parseStored(String[] array)

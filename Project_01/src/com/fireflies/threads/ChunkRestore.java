@@ -23,8 +23,8 @@ public class ChunkRestore extends Thread{
 	
 	@Override
 	public void run(){
-		
-		System.out.println("Restore Thread " + chunkNo);
+
+		//System.out.println("Restore Thread " + chunkNo + " file " + fileId);
 		
 		GetChunk msg = new GetChunk(fileId,chunkNo);
 		

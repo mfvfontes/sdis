@@ -25,9 +25,12 @@ public class Restore extends Thread {
     @Override
     public void run ()
     {
+
         //Get the fileId and chunks
         String fileId = LibraryHandler.fileLibrary.getFileID(fileName);
         int nChunks = LibraryHandler.fileLibrary.getNoChunks(fileId);
+
+        //System.out.println("Restore Thread for file " + fileId);
 
         //Send messages to the network
         for (int chunk = 0; chunk < nChunks; chunk++) {

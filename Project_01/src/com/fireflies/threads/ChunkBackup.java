@@ -23,12 +23,16 @@ public class ChunkBackup extends Thread {
     @Override
     public void run() {
 
+
+
         int nAttempts = 0;
         int waitTime = 500;
 
         ChunkID id = new ChunkID(file.getFileID(),chunkNo);
         int desiredReplication = file.getReplication();
         int actualReplication;
+
+        //System.out.println("Chunk Backup Thread for chunk no " + chunkNo + " from file " + file.getFileID());
 
         do {
             PutChunk msg = new PutChunk(file.getChunks().get(chunkNo),file.getFileID(),file.getReplication());
@@ -37,6 +41,7 @@ public class ChunkBackup extends Thread {
             try {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
+                System.out.println("Interrupted");
                 e.printStackTrace();
             }
 

@@ -6,6 +6,7 @@ import com.fireflies.reference.Reference;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
@@ -54,7 +55,9 @@ public class Listener extends Thread{
     {
         byte[] data = Arrays.copyOfRange(packet.getData(),0,packet.getLength());
 
-        Message message = new Message(data);
+        Message message = new Message(data, new InetSocketAddress(packet.getAddress(),packet.getPort()));
+
+        //System.out.println("\nReceived " + message.msgType + " message");
 
         if (message.msgType.equalsIgnoreCase(Reference.msgPutChunk))
         {
@@ -76,6 +79,10 @@ public class Listener extends Thread{
         {
             DeleteStoredChunks deleteStoredChunks = new DeleteStoredChunks(message.fileID);
             deleteStoredChunks.start();
+        } else if (message.msgType.equalsIgnoreCase(Reference.msgRemoved))
+        {
+            RemoteRemoved remoteRemoved = new RemoteRemoved(message);
+            remoteRemoved.start();
         }
     }
 }

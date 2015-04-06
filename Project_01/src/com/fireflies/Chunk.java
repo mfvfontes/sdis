@@ -12,7 +12,6 @@ public class Chunk implements Serializable {
 
     public Chunk(byte[] data, int chunkNo, int bytesRead) {
         this.data = Arrays.copyOfRange(data,0,bytesRead);
-        System.out.println(data.length + " " + bytesRead);
         this.chunkNo = chunkNo;
     }
 
